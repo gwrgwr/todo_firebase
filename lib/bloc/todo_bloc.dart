@@ -11,8 +11,6 @@ part 'todo_state.dart';
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final FirebaseData firebaseData;
   TodoBloc(this.firebaseData) : super(TodoInitialState()) {
-
-
     on<TodoRetriveEvent>((event, emit) async {
       final lista = await firebaseData.getData();
       print(lista);
@@ -21,14 +19,16 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<TodoRemoveEvent>(
       (event, emit) async {
-        await firebaseData.removeData(event.todo.uuid);
+        await firebaseData.removeData(event.todo);
         add(TodoRetriveEvent());
       },
     );
 
-    on<TodoInsertEvent>((event, emit) async {
-      firebaseData.insertData(event.todo);
-      add(TodoRetriveEvent());
-    },);
+    on<TodoInsertEvent>(
+      (event, emit) async {
+        firebaseData.insertData(event.todo);
+        add(TodoRetriveEvent());
+      },
+    );
   }
 }

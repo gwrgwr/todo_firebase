@@ -9,6 +9,7 @@ import 'package:todo_firebase/services/firebase_data.dart';
 import 'package:todo_firebase/themes/theme.dart';
 import 'package:todo_firebase/views/connect_page.dart';
 import 'package:todo_firebase/views/home_page.dart';
+import 'package:todo_firebase/views/page_view.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -47,7 +48,7 @@ class Route extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomePage();
+          return MyPageView();
         } else {
           return ConnectPage();
         }

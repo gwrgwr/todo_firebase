@@ -20,11 +20,9 @@ class FirebaseData {
     return lista;
   }
 
-  Future removeData(String todoId) async {
+  Future removeData(Todo removeTodo) async {
     await todo().update({
-      'todos': <Todo>[].where(
-        (element) => element.uuid == todoId,
-      )
+      'todos': FieldValue.arrayRemove([removeTodo.toMap()])
     });
   }
 
@@ -33,4 +31,5 @@ class FirebaseData {
       'todos': FieldValue.arrayUnion([insertTodo.toMap()])
     });
   }
+
 }

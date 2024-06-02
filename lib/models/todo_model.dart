@@ -5,25 +5,21 @@ class Todo {
   final String uuid;
   final String todo;
   final String description;
-  final bool isDone;
   Todo({
     required this.uuid,
     required this.todo,
     required this.description,
-    required this.isDone,
   });
 
   Todo copyWith({
     String? uuid,
     String? todo,
     String? description,
-    bool? isDone,
   }) {
     return Todo(
       uuid: uuid ?? this.uuid,
       todo: todo ?? this.todo,
       description: description ?? this.description,
-      isDone: isDone ?? this.isDone,
     );
   }
 
@@ -32,7 +28,6 @@ class Todo {
       'uuid': uuid,
       'todo': todo,
       'description': description,
-      'isDone': isDone,
     };
   }
 
@@ -41,7 +36,6 @@ class Todo {
       uuid: map['uuid'] as String,
       todo: map['todo'] as String,
       description: map['description'] as String,
-      isDone: map['isDone'] as bool,
     );
   }
 
@@ -50,9 +44,7 @@ class Todo {
   factory Todo.fromJson(String source) => Todo.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'Todo(uuid: $uuid, todo: $todo, description: $description, isDone: $isDone)';
-  }
+  String toString() => 'Todo(uuid: $uuid, todo: $todo, description: $description)';
 
   @override
   bool operator ==(covariant Todo other) {
@@ -61,15 +53,9 @@ class Todo {
     return 
       other.uuid == uuid &&
       other.todo == todo &&
-      other.description == description &&
-      other.isDone == isDone;
+      other.description == description;
   }
 
   @override
-  int get hashCode {
-    return uuid.hashCode ^
-      todo.hashCode ^
-      description.hashCode ^
-      isDone.hashCode;
-  }
+  int get hashCode => uuid.hashCode ^ todo.hashCode ^ description.hashCode;
 }

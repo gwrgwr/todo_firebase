@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:todo_firebase/bloc/todo_bloc.dart';
 import 'package:todo_firebase/models/todo_model.dart';
 import 'package:todo_firebase/services/firebase_data.dart';
+import 'package:todo_firebase/states/change_bool_state.dart';
 import 'package:uuid/uuid.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,11 +17,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final firebaseData = FirebaseData();
   final bloc = TodoBloc(GetIt.instance.get<FirebaseData>());
-
+  final controller = ChangeBoolState();
   @override
   void initState() {
     super.initState();
-    bloc.add(TodoRetriveEvent());
+    // bloc.add(TodoRetriveEvent());
   }
 
   @override
@@ -39,9 +40,10 @@ class _HomePageState extends State<HomePage> {
               bloc.add(
                 TodoInsertEvent(
                   todo: Todo(
-                    uuid: const Uuid().v1(),
                     todo: 'todo',
                     description: 'description',
+                    isDone: false,
+                    uuid: Uuid().v1(),
                   ),
                 ),
               );
@@ -63,6 +65,23 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          ValueListenableBuilder(
+                            valueListenable: controller,
+                            builder: (context, myValue, child) {
+                              return Checkbox(
+                                value: item.isDone,
+                                onChanged: (value) {
+                                  controller.change();
+                                  bloc.add(
+                                    TodoChangeBoolEvent(
+                                      todo: item,
+                                      value: item.isDone = myValue,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           SizedBox(
                             width: 200,
                             child: Text(item.todo),

@@ -13,7 +13,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc(this.firebaseData) : super(TodoInitialState()) {
     on<TodoRetriveEvent>((event, emit) async {
       final lista = await firebaseData.getData();
-      print(lista);
       emit(TodoSuccessState(listTodo: lista));
     });
 
@@ -26,9 +25,13 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<TodoInsertEvent>(
       (event, emit) async {
-        firebaseData.insertData(event.todo);
+        await firebaseData.insertData(event.todo);
         add(TodoRetriveEvent());
       },
     );
+
+    on<TodoChangeBoolEvent>((event, emit) async {
+      await firebaseData.changeBool(event.todo, event.value);
+    },);
   }
 }

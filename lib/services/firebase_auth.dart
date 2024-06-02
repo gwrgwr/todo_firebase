@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uuid/uuid.dart';
 
 class MyFirebaseAuth {
   final auth = FirebaseAuth.instance;
@@ -20,7 +21,7 @@ class MyFirebaseAuth {
     }
     final users = FirebaseFirestore.instance.collection('users');
 
-    await users.doc(auth.currentUser!.uid).set({"todos": []});
+    await users.doc(auth.currentUser!.uid).set({});
   }
 
   Future login({required String email, required String password}) async {

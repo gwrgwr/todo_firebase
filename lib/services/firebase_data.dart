@@ -6,30 +6,30 @@ class FirebaseData {
   final firebaseStore = FirebaseFirestore.instance;
   final firebaseAuth = FirebaseAuth.instance;
 
-  DocumentReference<Map<String, dynamic>> todo() {
-    return firebaseStore.collection('users').doc(firebaseAuth.currentUser!.uid);
+  CollectionReference<Map<String, dynamic>> todo() {
+    return firebaseStore.collection('users').doc(firebaseAuth.currentUser!.uid).collection('todos');
   }
 
   Future<List<Todo>> getData() async {
     final todos = await todo().get();
-    final teste = todos.data()!['todos'] as List<dynamic>;
+    print(todos.docs.first.data());
     final List<Todo> lista = [];
-    for (var element in teste) {
-      lista.add(Todo.fromMap(element));
+    for(var elements in todos.docs) {
+      lista.add(Todo.fromMap(elements.data()['todos']));
     }
     return lista;
   }
 
   Future removeData(Todo removeTodo) async {
-    await todo().update({
-      'todos': FieldValue.arrayRemove([removeTodo.toMap()])
-    });
+    await todo().doc(removeTodo.uuid).delete();
   }
 
   Future insertData(Todo insertTodo) async {
-    await todo().update({
-      'todos': FieldValue.arrayUnion([insertTodo.toMap()])
-    });
+    await todo().doc(insertTodo.uuid).set({'todos' : insertTodo.toMap()});
+  }
+
+  Future changeBool(Todo changeBool, bool value) async {
+    await todo().doc(changeBool.uuid).update({'todos.isDone': value});
   }
 
 }

@@ -15,3 +15,9 @@ class TodoRemoveEvent extends TodoEvent {
 }
 class TodoRetriveEvent extends TodoEvent {}
 
+class TodoChangeBoolEvent extends TodoEvent {
+  final Todo todo;
+  bool value;
+
+  TodoChangeBoolEvent({required this.todo, required this.value});
+}

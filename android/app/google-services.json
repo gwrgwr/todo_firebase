@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "676126346166",
+    "firebase_url": "https://todo-firebase-628ce-default-rtdb.firebaseio.com",
+    "project_id": "todo-firebase-628ce",
+    "storage_bucket": "todo-firebase-628ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676126346166:android:2317210653c2a268be0f17",
+        "android_client_info": {
+          "package_name": "com.example.todo_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgqz1bCcbzk0CTYQBaB0P1KPkT_4yj-N8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,16 +1,26 @@
 # todo_firebase
 
-A new Flutter project.
+<h1>Projeto feito em Flutter + Firebase + BloC State Management</h1>
 
-## Getting Started
+<h3>Ideia do projeto é um aplicativo de lista de tarefas com autenticação pelo autenticador da google firebase e com a persistência de dados usando o cloud firestore.</h3>
+<h3>Nele você poderá:</h3>
+<ul>
+  <li>Criar uma conta</li>
+  <li>Logar na sua conta</li>
+  <li>Adicionar, Remover e Atualizar tarefas</li>
+  <li>Marcar tarefa como concluída</li>
+  <li>Verificar suas tarefas já realizadas</li>
+</ul>
 
-This project is a starting point for a Flutter application.
+<hr/>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<h3>Packages Utilizados:</h3>
+<ul>
+  <li>firebase_core</li>
+  <li>firebase_auth</li>
+  <li>cloud_firestore</li>
+  <li>flutter_bloc</li>
+  <li>bloc</li>
+  <li>get_it</li>
+  <li>uuid</li>
+</ul>

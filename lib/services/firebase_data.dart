@@ -12,7 +12,6 @@ class FirebaseData {
 
   Future<List<Todo>> getData() async {
     final todos = await todo().get();
-    print(todos.docs.first.data());
     final List<Todo> lista = [];
     for(var elements in todos.docs) {
       lista.add(Todo.fromMap(elements.data()['todos']));

@@ -4,6 +4,7 @@ part of 'todo_bloc.dart';
 sealed class TodoState {}
 
 final class TodoInitialState extends TodoState {}
+
 final class TodoSuccessState extends TodoState {
   final List<Todo> listTodo;
 

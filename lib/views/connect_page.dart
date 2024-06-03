@@ -10,6 +10,7 @@ class ConnectPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
+      physics: const NeverScrollableScrollPhysics(),
       controller: controller,
       children: [
         LoginPage(pageController: controller,),

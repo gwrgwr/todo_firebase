@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_firebase/bloc/todo_bloc.dart';
+import 'package:todo_firebase/components/splash_screen.dart';
 import 'package:todo_firebase/models/todo_model.dart';
 import 'package:todo_firebase/services/firebase_data.dart';
 import 'package:todo_firebase/states/change_bool_state.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Column(
         children: [
-          Text(
+          const Text(
             'Sua Lista de Tarefas',
             style: TextStyle(
               fontSize: 18,
@@ -43,59 +44,58 @@ class _HomePageState extends State<HomePage> {
                     todo: 'todo',
                     description: 'description',
                     isDone: false,
-                    uuid: Uuid().v1(),
+                    uuid: const Uuid().v1(),
                   ),
                 ),
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.add,
             ),
           ),
           BlocBuilder<TodoBloc, TodoState>(
             bloc: bloc,
             builder: (context, state) {
+              
               if (state is TodoSuccessState) {
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: state.listTodo.length,
                   itemBuilder: (context, index) {
                     final item = state.listTodo[index];
-                    return Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ValueListenableBuilder(
-                            valueListenable: controller,
-                            builder: (context, myValue, child) {
-                              return Checkbox(
-                                value: item.isDone,
-                                onChanged: (value) {
-                                  controller.change();
-                                  bloc.add(
-                                    TodoChangeBoolEvent(
-                                      todo: item,
-                                      value: item.isDone = myValue,
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ValueListenableBuilder(
+                          valueListenable: controller,
+                          builder: (context, myValue, child) {
+                            return Checkbox(
+                              value: item.isDone,
+                              onChanged: (value) {
+                                controller.change();
+                                bloc.add(
+                                  TodoChangeBoolEvent(
+                                    todo: item,
+                                    value: item.isDone = myValue,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: Text(item.todo),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            bloc.add(TodoRemoveEvent(todo: item));
+                          },
+                          icon: const Icon(
+                            Icons.delete,
                           ),
-                          SizedBox(
-                            width: 200,
-                            child: Text(item.todo),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              bloc.add(TodoRemoveEvent(todo: item));
-                            },
-                            icon: const Icon(
-                              Icons.delete,
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     );
                   },
                 );

@@ -20,4 +20,5 @@ class TodoChangeBoolEvent extends TodoEvent {
   bool value;
 
   TodoChangeBoolEvent({required this.todo, required this.value});
+
 }

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_firebase/models/todo_model.dart';
 
+
+
 class FirebaseData {
   final firebaseStore = FirebaseFirestore.instance;
   final firebaseAuth = FirebaseAuth.instance;

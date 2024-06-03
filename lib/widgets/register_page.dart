@@ -14,6 +14,7 @@ class RegisterPage extends StatelessWidget {
   final myFirebaseAuth = MyFirebaseAuth();
   final firebaseAuth = FirebaseAuth.instance;
   final controller = RegisterStates();
+  final GlobalKey<FormFieldState> formFieldKey2 = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,6 +160,7 @@ class RegisterPage extends StatelessWidget {
                   valueListenable: controller,
                   builder: (context, value, child) {
                     return TextFormField(
+                      key: formFieldKey2,
                       validator: (value) {
                         if (value != null) {
                           if (value.length < 6) {
@@ -205,30 +207,22 @@ class RegisterPage extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: TextButton(
+                  child: FilledButton(
                     onPressed: () async {
-                      myFirebaseAuth.register(
-                        email: emailController.text,
-                        password: senhaController.text,
-                        userName: userController.text,
-                        context: context,
-                        pageController: pageController
-                      );
+                      if (formFieldKey2.currentState!.validate()) {
+                        myFirebaseAuth.register(
+                          email: emailController.text,
+                          password: senhaController.text,
+                          userName: userController.text,
+                          context: context,
+                          pageController: pageController,
+                        );
+                      }
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        'Registrar',
-                        style: TextStyle(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
+                    child: Text(
+                      'Registrar',
+                      style: TextStyle(
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                     ),
                   ),

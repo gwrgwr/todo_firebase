@@ -12,6 +12,7 @@ class LoginPage extends StatelessWidget {
   MyFirebaseAuth myFirebaseAuth = MyFirebaseAuth();
   final controller = LoginStates();
   final GlobalKey<FormFieldState> formFieldKey = GlobalKey();
+  final GlobalKey<FormFieldState> formPasswordKey = GlobalKey();
   final focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -48,26 +49,33 @@ class LoginPage extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                   controller: emailTextController,
                   decoration: InputDecoration(
-                      hintText: 'Email',
-                      suffixIcon: const Icon(Icons.person_outline),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                    hintText: 'Email',
+                    suffixIcon: const Icon(Icons.person_outline),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      )),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -80,6 +88,7 @@ class LoginPage extends StatelessWidget {
                   valueListenable: controller,
                   builder: (context, value, child) {
                     return TextFormField(
+                      key: formPasswordKey,
                       onTapOutside: (event) =>
                           FocusScope.of(context).requestFocus(FocusNode()),
                       validator: (value) {
@@ -128,34 +137,35 @@ class LoginPage extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {
-                      if (formFieldKey.currentState!.validate()) {
-                        myFirebaseAuth.login(
-                          email: emailTextController.text,
-                          password: senhaTextController.text,
-                          context: context,
-                        );
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      child: Text(
-                        'Entrar',
-                        style: TextStyle(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                      ),
+                    onPressed: () {},
+                    child: const Text(
+                      'Esqueceu a senha?',
                     ),
                   ),
                 ),
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  onPressed: () {
+                    if (formFieldKey.currentState!.validate() &&
+                        formPasswordKey.currentState!.validate()) {
+                      myFirebaseAuth.login(
+                        email: emailTextController.text,
+                        password: senhaTextController.text,
+                        context: context,
+                      );
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    }
+                  },
+                  child: Text(
+                    'Entrar',
+                    style: TextStyle(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
                 Align(
                   alignment: Alignment.center,
                   child: TextButton(

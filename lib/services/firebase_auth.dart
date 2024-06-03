@@ -79,7 +79,7 @@ class MyFirebaseAuth {
         email: email,
         password: password,
       );
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       return ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

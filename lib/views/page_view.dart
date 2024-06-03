@@ -6,6 +6,7 @@ import 'package:todo_firebase/components/splash_screen.dart';
 import 'package:todo_firebase/services/firebase_auth.dart';
 import 'package:todo_firebase/services/firebase_data.dart';
 import 'package:todo_firebase/views/home_page.dart';
+import 'package:todo_firebase/views/insert_page.dart';
 
 class MyPageView extends StatelessWidget {
   MyPageView({super.key});
@@ -13,6 +14,7 @@ class MyPageView extends StatelessWidget {
   final myFirebaseAuth = MyFirebaseAuth();
   final firebaseAuth = FirebaseAuth.instance;
   final bloc = TodoBloc(GetIt.instance.get<FirebaseData>());
+  final pageController = PageController();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -33,8 +35,10 @@ class MyPageView extends StatelessWidget {
             appBar: AppBar(title: Text('Olá ${snapshot.data!.displayName}')),
             body: PageView(
               physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
               children: [
                 HomePage(),
+                InsertPage(pageController: pageController),
               ],
             ),
           );

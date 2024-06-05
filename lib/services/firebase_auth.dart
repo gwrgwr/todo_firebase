@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyFirebaseAuth {
-  final auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   Future register({
     required String email,
@@ -13,11 +13,11 @@ class MyFirebaseAuth {
     required PageController pageController,
   }) async {
     try {
-      await auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      User? user = auth.currentUser;
+      User? user = _auth.currentUser;
 
       if (user != null) {
         await user.updateDisplayName(userName);
@@ -25,7 +25,7 @@ class MyFirebaseAuth {
       }
       final users = FirebaseFirestore.instance.collection('users');
 
-      await users.doc(auth.currentUser!.uid).set({});
+      await users.doc(_auth.currentUser!.uid).set({});
     } catch (e) {
       if (e.toString().contains('The email address is badly formatted')) {
         if (Scaffold.of(context).mounted) {
@@ -75,7 +75,7 @@ class MyFirebaseAuth {
       required String password,
       required BuildContext context}) async {
     try {
-      await auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -91,6 +91,29 @@ class MyFirebaseAuth {
   }
 
   Future logout() async {
-    await auth.signOut();
+    await _auth.signOut();
+  }
+
+  Future sendCodeToEmail(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<String> verifyCodeFromEmail(String code) async {
+    String message = '';
+    try {
+      await _auth.verifyPasswordResetCode(code);
+    } catch (e) {
+      if (e.toString() == 'invalid-action-code') {
+        message = 'Código inserido inválido!';
+      } else if (e.toString() == 'expired-action-code') {
+        message = 'Código expirou, envie novamente';
+      }
+      message = 'Senha atualizada com sucesso!';
+    }
+    return message;
+  }
+
+  Future inputCodeFromEmail(String code, String newPassword) async {
+    await _auth.confirmPasswordReset(code: code, newPassword: newPassword);
   }
 }

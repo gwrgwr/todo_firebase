@@ -144,7 +144,7 @@ class InsertPage extends StatelessWidget {
                       pageController.jumpToPage(0);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        MySnackbar.mySnackBar(),
+                        MySnackbar.mySnackBar(text: 'Os campos são obrigatórios!'),
                       );
                     }
                   },

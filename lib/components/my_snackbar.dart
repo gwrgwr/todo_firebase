@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MySnackbar {
-  static SnackBar mySnackBar() {
-    return const SnackBar(
-      
+  static SnackBar mySnackBar({required String text}) {
+    return SnackBar(
       behavior: SnackBarBehavior.floating,
       content: Text(
-        'Os campos são obrigatórios!',
+        text,
       ),
     );
   }

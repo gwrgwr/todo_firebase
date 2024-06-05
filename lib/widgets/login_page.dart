@@ -4,9 +4,9 @@ import 'package:todo_firebase/states/login_states.dart';
 
 // ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
-  LoginPage({required this.pageController, super.key});
+  LoginPage({required this.pageController, required this.globalEmailTextController, super.key});
 
-  final emailTextController = TextEditingController();
+  final TextEditingController globalEmailTextController;
   final senhaTextController = TextEditingController();
   final PageController pageController;
   MyFirebaseAuth myFirebaseAuth = MyFirebaseAuth();
@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
                     return null;
                   },
                   keyboardType: TextInputType.emailAddress,
-                  controller: emailTextController,
+                  controller: globalEmailTextController,
                   decoration: InputDecoration(
                     hintText: 'Email',
                     suffixIcon: const Icon(Icons.person_outline),
@@ -137,7 +137,9 @@ class LoginPage extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      pageController.jumpToPage(2);
+                    },
                     child: const Text(
                       'Esqueceu a senha?',
                     ),
@@ -151,7 +153,7 @@ class LoginPage extends StatelessWidget {
                     if (formFieldKey.currentState!.validate() &&
                         formPasswordKey.currentState!.validate()) {
                       myFirebaseAuth.login(
-                        email: emailTextController.text,
+                        email: globalEmailTextController.text,
                         password: senhaTextController.text,
                         context: context,
                       );

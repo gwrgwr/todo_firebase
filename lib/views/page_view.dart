@@ -15,6 +15,7 @@ class MyPageView extends StatelessWidget {
   final firebaseAuth = FirebaseAuth.instance;
   final bloc = TodoBloc(GetIt.instance.get<FirebaseData>());
   final pageController = PageController();
+  final taskNameControllerGlobal = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -37,8 +38,8 @@ class MyPageView extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               controller: pageController,
               children: [
-                HomePage(),
-                InsertPage(pageController: pageController),
+                HomePage(pageController: pageController, taskNameControllerGlobal: taskNameControllerGlobal),
+                InsertPage(pageController: pageController, taskNameControllerGlobal:taskNameControllerGlobal ),
               ],
             ),
           );

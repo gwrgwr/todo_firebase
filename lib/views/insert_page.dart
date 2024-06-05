@@ -7,9 +7,13 @@ import 'package:todo_firebase/services/firebase_data.dart';
 import 'package:uuid/uuid.dart';
 
 class InsertPage extends StatelessWidget {
-  InsertPage({required this.pageController, super.key});
+  InsertPage(
+      {required this.pageController,
+      required this.taskNameControllerGlobal,
+      super.key});
 
-  final taskNameController = TextEditingController();
+  final TextEditingController taskNameControllerGlobal;
+
   final taskDescriptionController = TextEditingController();
   final bloc = TodoBloc(GetIt.instance.get<FirebaseData>());
   final PageController pageController;
@@ -52,7 +56,7 @@ class InsertPage extends StatelessWidget {
                   return null;
                 },
                 keyboardType: TextInputType.text,
-                controller: taskNameController,
+                controller: taskNameControllerGlobal,
                 decoration: InputDecoration(
                   hintText: 'Tarefa',
                   enabledBorder: OutlineInputBorder(
@@ -123,23 +127,25 @@ class InsertPage extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: FilledButton(
                   onPressed: () {
-                    if (taskNameController.text.isNotEmpty &&
+                    if (taskNameControllerGlobal.text.isNotEmpty &&
                         taskDescriptionController.text.isNotEmpty) {
                       bloc.add(
                         TodoInsertEvent(
                           todo: Todo(
                             isDone: false,
-                            todo: taskNameController.text,
+                            todo: taskNameControllerGlobal.text,
                             description: taskDescriptionController.text,
                             uuid: const Uuid().v1(),
                           ),
                         ),
                       );
-                      taskNameController.clear();
+                      taskNameControllerGlobal.clear();
                       taskDescriptionController.clear();
                       pageController.jumpToPage(0);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(MySnackbar.mySnackBar());
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        MySnackbar.mySnackBar(),
+                      );
                     }
                   },
                   child: const Text(
